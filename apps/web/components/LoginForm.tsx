@@ -67,7 +67,7 @@ export function LoginForm({ ownerEmail }: { ownerEmail: string | null }) {
         />
       </label>
       {error ? <p className="form-error">{error}</p> : null}
-      <button type="submit" disabled={loading}>
+      <button type="submit" className="btn" disabled={loading}>
         {loading ? "Signing in…" : "Sign in"}
       </button>
     </form>

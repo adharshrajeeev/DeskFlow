@@ -10,10 +10,8 @@ export default function LoginPage() {
     <main className="auth-shell">
       <div className="auth-card">
         <p className="brand">DeskFlow</p>
-        <h1>Aquarium control</h1>
-        <p className="lede">
-          Your private light + filter dashboard. One owner only.
-        </p>
+        <h1>Welcome back</h1>
+        <p className="lede">Your aquarium, from anywhere.</p>
         <Suspense fallback={null}>
           <LoginForm ownerEmail={ownerEmail} />
         </Suspense>
@@ -23,9 +21,7 @@ export default function LoginPage() {
           </p>
         ) : (
           <p className="auth-footer muted">
-            Set <code>DESKFLOW_OWNER_EMAIL</code> in <code>.env.local</code> to
-            your email, restart the server, then open{" "}
-            <Link href="/setup">/setup</Link>.
+            Set <code>DESKFLOW_OWNER_EMAIL</code> in <code>.env.local</code>.
           </p>
         )}
       </div>

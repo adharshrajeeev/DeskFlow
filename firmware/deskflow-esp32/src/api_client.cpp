@@ -1,10 +1,17 @@
 #include "api_client.h"
 #include "secrets.h"
 
+#include <ArduinoJson.h>
+
+#if defined(ESP8266)
+#include <ESP8266HTTPClient.h>
+#include <ESP8266WiFi.h>
+#include <WiFiClientSecureBearSSL.h>
+#else
 #include <HTTPClient.h>
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
-#include <ArduinoJson.h>
+#endif
 
 namespace {
 
@@ -66,15 +73,22 @@ DesiredState fetchDesiredState() {
   }
 
   HTTPClient http;
+#if defined(ESP8266)
+  BearSSL::WiFiClientSecure secureClient;
+  WiFiClient plainClient;
+  if (useTls()) {
+    secureClient.setInsecure();
+  }
+#else
   WiFiClientSecure secureClient;
   WiFiClient plainClient;
+  if (useTls()) {
+    secureClient.setInsecure();
+  }
+#endif
 
   bool begun = false;
   if (useTls()) {
-    // Production certificates: setCertificate / setCACert in a follow-up if needed.
-    // For MVP on ESP32 + public HTTPS (Vercel), insecure is commonly used for bring-up.
-    // Prefer proper CA validation before long-term deployment.
-    secureClient.setInsecure();
     begun = http.begin(secureClient, stateUrl());
   } else {
     begun = http.begin(plainClient, stateUrl());
@@ -127,12 +141,22 @@ bool reportActualState(bool light_on, bool filter_on) {
   }
 
   HTTPClient http;
+#if defined(ESP8266)
+  BearSSL::WiFiClientSecure secureClient;
+  WiFiClient plainClient;
+  if (useTls()) {
+    secureClient.setInsecure();
+  }
+#else
   WiFiClientSecure secureClient;
   WiFiClient plainClient;
+  if (useTls()) {
+    secureClient.setInsecure();
+  }
+#endif
 
   bool begun = false;
   if (useTls()) {
-    secureClient.setInsecure();
     begun = http.begin(secureClient, reportUrl());
   } else {
     begun = http.begin(plainClient, reportUrl());

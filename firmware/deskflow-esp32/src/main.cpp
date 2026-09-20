@@ -1,5 +1,10 @@
 #include <Arduino.h>
+
+#if defined(ESP8266)
+#include <ESP8266WiFi.h>
+#else
 #include <WiFi.h>
+#endif
 
 #include "api_client.h"
 #include "outputs.h"
@@ -11,7 +16,7 @@ void setup() {
   Serial.begin(115200);
   delay(200);
   Serial.println();
-  Serial.println("DeskFlow ESP32 — Aquarium Controller");
+  Serial.println("DeskFlow — Aquarium Controller");
   Serial.println("Safe startup: light=OFF filter=OFF");
 
   outputsBegin();
@@ -19,6 +24,7 @@ void setup() {
   // Never print DEVICE_KEY.
   Serial.printf("Device ID: %s\n", DEVICE_ID);
   Serial.printf("API: %s\n", API_BASE_URL);
+  Serial.printf("Light pin (builtin LED): GPIO %d\n", LIGHT_PIN);
 
   ensureWifiConnected();
 }
@@ -27,7 +33,6 @@ void loop() {
   const DesiredState desired = fetchDesiredState();
 
   if (desired.ok) {
-    // Apply desired state. On failure we keep previous outputs (no rapid flipping).
     if (desired.light_on != getLight()) {
       setLight(desired.light_on);
       Serial.printf("[gpio] light -> %s (GPIO %d)\n",

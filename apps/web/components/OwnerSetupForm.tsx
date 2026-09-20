@@ -59,7 +59,7 @@ export function OwnerSetupForm({ ownerEmail }: { ownerEmail: string }) {
         />
       </label>
       {error ? <p className="form-error">{error}</p> : null}
-      <button type="submit" disabled={loading}>
+      <button type="submit" className="btn" disabled={loading}>
         {loading ? "Creating…" : "Create my DeskFlow account"}
       </button>
     </form>

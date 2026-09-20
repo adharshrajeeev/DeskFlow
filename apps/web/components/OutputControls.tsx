@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import {
-  setDesiredFilter,
-  setDesiredLight,
-} from "@/app/actions";
+import { useEffect, useState, useTransition } from "react";
+import { setDesiredFilter, setDesiredLight } from "@/app/actions";
+import { ToggleSwitch } from "@/components/ToggleSwitch";
 
 type Props = {
   deviceId: string;
@@ -24,18 +22,16 @@ export function OutputControls({
   isOnline,
 }: Props) {
   return (
-    <div className="controls">
-      <OutputCard
+    <div className="control-stack">
+      <SwitchRow
         title="Aquarium Light"
-        deviceId={deviceId}
         desired={desiredLight}
         reported={reportedLight}
         isOnline={isOnline}
         onToggle={(on) => setDesiredLight(deviceId, on)}
       />
-      <OutputCard
+      <SwitchRow
         title="Aquarium Filter"
-        deviceId={deviceId}
         desired={desiredFilter}
         reported={reportedFilter}
         isOnline={isOnline}
@@ -45,7 +41,7 @@ export function OutputControls({
   );
 }
 
-function OutputCard({
+function SwitchRow({
   title,
   desired,
   reported,
@@ -53,7 +49,6 @@ function OutputCard({
   onToggle,
 }: {
   title: string;
-  deviceId: string;
   desired: boolean;
   reported: boolean;
   isOnline: boolean;
@@ -61,48 +56,42 @@ function OutputCard({
 }) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [optimistic, setOptimistic] = useState(desired);
 
-  function toggle(next: boolean) {
+  useEffect(() => {
+    setOptimistic(desired);
+  }, [desired]);
+
+  function handleChange(next: boolean) {
     setError(null);
+    setOptimistic(next);
     startTransition(async () => {
       const result = await onToggle(next);
-      if (!result.ok) setError(result.error);
+      if (!result.ok) {
+        setOptimistic(!next);
+        setError(result.error);
+      }
     });
   }
 
   return (
-    <section className="output-card">
-      <h2>{title}</h2>
-      <dl className="state-meta">
-        <div>
-          <dt>Desired</dt>
-          <dd className={desired ? "on" : "off"}>{desired ? "ON" : "OFF"}</dd>
-        </div>
-        <div>
-          <dt>Actual</dt>
-          <dd className={reported ? "on" : "off"}>{reported ? "ON" : "OFF"}</dd>
-        </div>
-      </dl>
-      {!isOnline ? <p className="offline-note">Device offline</p> : null}
-      <div className="toggle-row">
-        <button
-          type="button"
-          className={desired ? "active" : ""}
-          disabled={pending || desired}
-          onClick={() => toggle(true)}
-        >
-          ON
-        </button>
-        <button
-          type="button"
-          className={!desired ? "active off" : "off"}
-          disabled={pending || !desired}
-          onClick={() => toggle(false)}
-        >
-          OFF
-        </button>
+    <section className={`switch-card ${optimistic ? "is-on" : ""}`}>
+      <div>
+        <h2>{title}</h2>
+        <p className="switch-meta">
+          Desired <strong>{optimistic ? "ON" : "OFF"}</strong>
+          {" · "}
+          Actual <strong>{reported ? "ON" : "OFF"}</strong>
+        </p>
+        {!isOnline ? <span className="offline-chip">Device offline</span> : null}
+        {error ? <p className="form-error">{error}</p> : null}
       </div>
-      {error ? <p className="form-error">{error}</p> : null}
+      <ToggleSwitch
+        label={`${title} ${optimistic ? "on" : "off"}`}
+        checked={optimistic}
+        disabled={pending}
+        onChange={handleChange}
+      />
     </section>
   );
 }
