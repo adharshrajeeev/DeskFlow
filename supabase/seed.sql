@@ -1,0 +1,6 @@
+-- Optional: run after a user exists if you need a manual test device.
+-- Prefer creating devices from the DeskFlow dashboard (shows the plaintext key once).
+--
+-- Example (replace USER_UUID and use a real bcrypt/sha256 hash — do not use this as-is):
+-- insert into public.devices (user_id, name, device_key_hash)
+-- values ('USER_UUID', 'Aquarium Controller', 'REPLACE_WITH_HASH');
