@@ -60,7 +60,7 @@ export function DashboardShell({
           disabled={signingOut}
           onClick={handleSignOut}
         >
-          {signingOut ? "Signing out…" : "Sign out"}
+          {signingOut ? "…" : "Sign Out"}
         </button>
       </header>
 
@@ -69,11 +69,13 @@ export function DashboardShell({
           <>
             <section className="hero-card">
               <span className="status-pill">
-                <span className={`status-dot ${isOnline ? "online" : "offline"}`} />
+                <span
+                  className={`status-dot ${isOnline ? "online" : "offline"}`}
+                />
                 {isOnline ? "Online" : "Offline"}
               </span>
               <h1>{deviceName}</h1>
-              <p className="meta">Last seen: {lastSeenLabel}</p>
+              <p className="meta">Last seen {lastSeenLabel}</p>
             </section>
 
             <OutputControls
@@ -96,9 +98,9 @@ export function DashboardShell({
           className={`tab-btn ${tab === "home" ? "active" : ""}`}
           onClick={() => setTab("home")}
         >
-          <span className="tab-icon" aria-hidden>
-            ⌂
-          </span>
+          <svg className="tab-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            <path d="M12 3.2 3.5 10.2a1 1 0 0 0-.3.7V20a1 1 0 0 0 1 1h5.2v-5.5h5.2V21H19.8a1 1 0 0 0 1-1v-9.1a1 1 0 0 0-.3-.7L12 3.2Z" />
+          </svg>
           Home
         </button>
         <button
@@ -106,9 +108,9 @@ export function DashboardShell({
           className={`tab-btn ${tab === "secrets" ? "active" : ""}`}
           onClick={() => setTab("secrets")}
         >
-          <span className="tab-icon" aria-hidden>
-            ⚙
-          </span>
+          <svg className="tab-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            <path d="M12.8 2.5a5.3 5.3 0 0 0-5.2 5.8l-5 5V18h4.7v-2.2H9.5v-2.2h2.2l1.4-1.4A5.3 5.3 0 1 0 12.8 2.5Zm3.1 3.2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+          </svg>
           Secrets
         </button>
       </nav>

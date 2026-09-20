@@ -1,25 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #140f0c;
-  --bg-elevated: #1c1612;
-  --surface: #241c17;
-  --surface-2: #2e241e;
-  --border: #3d3128;
-  --text: #f4ebe3;
-  --text-muted: #a89484;
-  --accent: #e8a45c;
-  --accent-soft: #f0c08a;
-  --accent-dim: #b87430;
-  --accent-glow: rgba(232, 164, 92, 0.28);
-  --danger: #e86b5a;
-  --warn: #e6b84d;
-  --online: #6bcf8e;
-  --offline: #7a6a5c;
-  --toggle-off: #3a2f28;
+  --bg: #f2f2f7;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f9f9fb;
+  --grouped: #f2f2f7;
+  --border: rgba(60, 60, 67, 0.12);
+  --separator: rgba(60, 60, 67, 0.18);
+  --text: #000000;
+  --text-secondary: #3c3c43;
+  --text-muted: rgba(60, 60, 67, 0.6);
+  --accent: #007aff;
+  --accent-pressed: #0062cc;
+  --fill: rgba(120, 120, 128, 0.16);
+  --danger: #ff3b30;
+  --warn: #ff9500;
+  --online: #34c759;
+  --offline: #8e8e93;
+  --toggle-off: #e9e9eb;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.04);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 * {
@@ -33,18 +37,16 @@ body {
 }
 
 body {
-  font-family: var(--font-sans);
-  background:
-    radial-gradient(ellipse 90% 55% at 50% -15%, #3a2418 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 100% 100%, #2a1810 0%, transparent 50%),
-    var(--bg);
+  font-family: var(--font);
+  background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
 }
 
 a {
-  color: inherit;
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -55,14 +57,14 @@ button {
 
 code {
   font-family: var(--font-mono);
-  font-size: 0.88em;
+  font-size: 0.86em;
 }
 
 /* —— Auth —— */
 .auth-shell {
   max-width: 420px;
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 3rem;
+  padding: 3rem 1.25rem;
   min-height: 100dvh;
   display: flex;
   align-items: center;
@@ -70,30 +72,32 @@ code {
 
 .auth-card {
   width: 100%;
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  border: 1px solid var(--border);
+  background: var(--surface);
   border-radius: 20px;
-  padding: 1.75rem 1.35rem;
+  padding: 2rem 1.5rem;
+  box-shadow: var(--shadow);
 }
 
 .brand {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--accent);
+  letter-spacing: -0.04em;
+  color: var(--text);
 }
 
 .auth-card h1 {
-  margin: 0.4rem 0 0.35rem;
-  font-size: 1.55rem;
+  margin: 0.5rem 0 0.35rem;
+  font-size: 1.4rem;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .lede,
 .muted,
 .user-email,
-.auth-footer {
+.auth-footer,
+.meta {
   color: var(--text-muted);
 }
 
@@ -101,25 +105,27 @@ code {
 .field label {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  margin-top: 0.9rem;
-  font-size: 0.85rem;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
   color: var(--text-muted);
 }
 
 input {
   width: 100%;
-  padding: 0.85rem 0.95rem;
+  padding: 0.9rem 1rem;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: var(--bg-elevated);
+  background: var(--surface-2);
   color: var(--text);
-  font-size: 1rem;
+  font-size: 1.0625rem;
 }
 
 input:focus {
-  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
-  outline-offset: 1px;
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
 }
 
 .btn,
@@ -127,34 +133,40 @@ button.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
   width: 100%;
-  margin-top: 1.1rem;
+  margin-top: 1.25rem;
   padding: 0.9rem 1.1rem;
   border-radius: 14px;
   border: none;
-  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
-  color: #1a1008;
-  font-weight: 700;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.0625rem;
   cursor: pointer;
-  font-size: 1rem;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.btn:active,
+button.btn:active {
+  background: var(--accent-pressed);
+  transform: scale(0.98);
 }
 
 .btn:disabled,
 button:disabled {
-  opacity: 0.55;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 .btn-ghost,
 button.btn-ghost {
   width: auto;
-  margin-top: 0;
-  padding: 0.55rem 0.9rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
+  margin: 0;
+  padding: 0.5rem 0.85rem;
+  border-radius: 980px;
+  border: none;
+  background: var(--fill);
+  color: var(--accent);
   font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
@@ -163,46 +175,42 @@ button.btn-ghost {
 .btn-secondary,
 button.btn-secondary {
   width: 100%;
-  margin-top: 0.65rem;
-  padding: 0.8rem 1rem;
+  margin-top: 0;
+  padding: 0.85rem 1rem;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--surface-2);
-  color: var(--text);
+  border: none;
+  background: var(--fill);
+  color: var(--accent);
   font-weight: 600;
   cursor: pointer;
 }
 
 .form-error {
   color: var(--danger);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   margin: 0.6rem 0 0;
 }
 
 .form-message {
-  color: var(--accent);
-  font-size: 0.9rem;
+  color: var(--online);
+  font-size: 0.875rem;
 }
 
 .auth-footer {
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
   font-size: 0.9rem;
   text-align: center;
 }
 
-.auth-footer a {
-  color: var(--accent);
-  font-weight: 600;
-}
-
-/* —— Dashboard shell —— */
+/* —— Dashboard —— */
 .dash-app {
-  max-width: 480px;
+  max-width: 430px;
   margin: 0 auto;
   min-height: 100dvh;
-  padding: 0 0 calc(4.75rem + var(--safe-bottom));
+  padding: 0 0 calc(5rem + var(--safe-bottom));
   display: flex;
   flex-direction: column;
+  background: var(--bg);
 }
 
 .dash-top {
@@ -213,82 +221,81 @@ button.btn-secondary {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: 0.85rem 1.15rem;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
-  backdrop-filter: blur(14px);
+  padding: 0.75rem 1.25rem;
+  background: rgba(242, 242, 247, 0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid var(--separator);
 }
 
 .dash-top .brand {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
 }
 
 .dash-top .user-email {
-  margin: 0.1rem 0 0;
+  margin: 0.15rem 0 0;
   font-size: 0.75rem;
-  max-width: 11rem;
+  max-width: 12rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .dash-body {
-  padding: 1.15rem 1.15rem 1.5rem;
+  padding: 1.25rem 1.25rem 1.5rem;
   flex: 1;
 }
 
 .status-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.35rem 0.7rem;
-  border-radius: 999px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  font-size: 0.8rem;
+  gap: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 980px;
+  background: var(--fill);
+  font-size: 0.8125rem;
   font-weight: 600;
+  color: var(--text-secondary);
 }
 
 .status-dot {
-  width: 0.55rem;
-  height: 0.55rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
   background: var(--offline);
 }
 
 .status-dot.online {
   background: var(--online);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--online) 55%, transparent);
 }
 
 .hero-card {
-  background: linear-gradient(
-    160deg,
-    color-mix(in srgb, var(--accent) 18%, var(--surface)) 0%,
-    var(--surface) 55%
-  );
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  padding: 1.35rem 1.25rem;
-  margin-bottom: 1rem;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 1.25rem 1.2rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
 }
 
 .hero-card h1 {
-  margin: 0.55rem 0 0.25rem;
-  font-size: 1.55rem;
+  margin: 0.65rem 0 0.2rem;
+  font-size: 1.75rem;
+  font-weight: 700;
   letter-spacing: -0.03em;
 }
 
 .hero-card .meta {
   margin: 0;
-  color: var(--text-muted);
-  font-size: 0.88rem;
+  font-size: 0.9375rem;
 }
 
 .control-stack {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  background: var(--surface);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
 }
 
 .switch-card {
@@ -296,139 +303,144 @@ button.btn-secondary {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1.15rem 1.2rem;
+  padding: 1rem 1.15rem;
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  border-bottom: 0.5px solid var(--separator);
 }
 
-.switch-card.is-on {
-  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
-    0 8px 28px var(--accent-glow);
+.switch-card:last-child {
+  border-bottom: none;
+}
+
+.switch-card.is-on h2 {
+  color: var(--text);
 }
 
 .switch-card h2 {
   margin: 0;
-  font-size: 1.1rem;
-  letter-spacing: -0.02em;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .switch-meta {
-  margin: 0.35rem 0 0;
-  font-size: 0.8rem;
+  margin: 0.25rem 0 0;
+  font-size: 0.8125rem;
   color: var(--text-muted);
 }
 
 .switch-meta strong {
-  color: var(--text);
+  color: var(--text-secondary);
   font-weight: 600;
 }
 
 .offline-chip {
   display: inline-block;
-  margin-top: 0.4rem;
+  margin-top: 0.35rem;
   font-size: 0.75rem;
   color: var(--warn);
   font-weight: 600;
 }
 
-/* Toggle switch */
+/* iOS-style switch */
 .toggle {
   position: relative;
-  width: 3.6rem;
-  height: 2.1rem;
+  width: 51px;
+  height: 31px;
   flex-shrink: 0;
   border: none;
-  border-radius: 999px;
+  border-radius: 980px;
   background: var(--toggle-off);
   cursor: pointer;
   padding: 0;
-  transition: background 0.2s ease;
+  transition: background 0.25s ease;
 }
 
 .toggle[aria-checked="true"] {
-  background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+  background: var(--online);
 }
 
 .toggle-knob {
   position: absolute;
-  top: 0.22rem;
-  left: 0.22rem;
-  width: 1.66rem;
-  height: 1.66rem;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
   border-radius: 50%;
-  background: #fff8f0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s ease;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .toggle[aria-checked="true"] .toggle-knob {
-  transform: translateX(1.5rem);
+  transform: translateX(20px);
 }
 
 .toggle:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
 }
 
 /* Secrets */
 .secrets-card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 1.25rem;
+  box-shadow: var(--shadow);
 }
 
 .secrets-card h2 {
-  margin: 0 0 0.4rem;
-  font-size: 1.2rem;
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .secrets-card p {
   margin: 0 0 1rem;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   line-height: 1.45;
 }
 
 .secrets-card.warn {
-  border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+  box-shadow: var(--shadow), 0 0 0 1px rgba(255, 149, 0, 0.25);
 }
 
 .mono-box {
   margin-top: 0.35rem;
-  padding: 0.75rem 0.85rem;
+  padding: 0.85rem 0.9rem;
   border-radius: 10px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
+  background: var(--grouped);
+  border: 0.5px solid var(--border);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   word-break: break-all;
   user-select: all;
+  color: var(--text-secondary);
 }
 
 .action-row {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.55rem;
   margin-top: 1rem;
 }
 
-/* Bottom tabs */
+/* Tab bar — iOS style */
 .tab-bar {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;
-  width: min(480px, 100%);
+  width: min(430px, 100%);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.35rem;
-  padding: 0.55rem 0.85rem calc(0.55rem + var(--safe-bottom));
-  background: color-mix(in srgb, var(--bg-elevated) 94%, transparent);
-  border-top: 1px solid var(--border);
-  backdrop-filter: blur(16px);
+  padding: 0.35rem 0.5rem calc(0.35rem + var(--safe-bottom));
+  background: rgba(249, 249, 249, 0.92);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: 0.5px solid var(--separator);
   z-index: 30;
 }
 
@@ -436,33 +448,24 @@ button.btn-secondary {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
-  padding: 0.55rem 0.5rem;
+  gap: 0.15rem;
+  padding: 0.4rem 0.5rem 0.25rem;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   background: transparent;
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  font-weight: 600;
+  color: var(--offline);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   cursor: pointer;
 }
 
 .tab-btn.active {
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  color: var(--accent-soft);
+  color: var(--accent);
 }
 
 .tab-icon {
-  font-size: 1.15rem;
-  line-height: 1;
-}
-
-@media (min-width: 640px) {
-  .dash-body {
-    padding: 1.5rem 1.5rem 2rem;
-  }
-
-  .control-stack {
-    gap: 1rem;
-  }
+  width: 24px;
+  height: 24px;
+  display: block;
 }

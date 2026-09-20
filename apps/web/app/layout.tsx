@@ -1,16 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "DeskFlow",
@@ -18,7 +7,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: "DeskFlow",
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
   },
 };
 
@@ -26,8 +15,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#140f0c",
-  colorScheme: "dark",
+  themeColor: "#f2f2f7",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -37,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} ${geistMono.variable}`}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
